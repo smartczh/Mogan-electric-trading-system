@@ -1,0 +1,109 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Sign up</title>
+	
+	<link href="css/form.css" rel="stylesheet">
+	<link href="css/my_style.css" rel="stylesheet">
+	
+   <script src="js/jquery.min.js"></script>
+	
+</head>
+<body>
+
+	<div class="container" style="padding:40px">
+		<section id="content">
+		<form action="">
+			<h1>Sign up</h1>
+			<div>
+				<input type="text" placeholder="Username" required="" id="username" class="input"/>
+			</div>
+			<div>
+				<input type="password" placeholder="Password" required="" id="password" class="input"/>
+			</div>
+			<div>
+				<input type="password" placeholder="Confirm your password" required="" id="password1" class="input"/>
+			</div>
+			<div>
+				<input type="button" id="button" value="Next>" onclick="next()"/>
+				<a href="#">Lost your password?</a>
+				<a href="login.html">Login</a>
+			</div>
+		</form><!-- form -->
+        <div id="loading" style="padding-bottom:20px;display: none"><img src="imgs/test.gif" height="50" width="50"/></div>
+		<div class="button">
+			<a href="index.html">Home</a>
+		</div><!-- button -->
+		</section><!-- content -->
+	</div><!-- container -->
+
+<script>
+    var logname;
+    var password;
+    var password1;
+    var realname;
+    var email;
+    var phone;
+    function next(){
+        logname = document.getElementById("username").value;
+        password = document.getElementById("password").value;
+        password1 = document.getElementById("password1").value;
+        if(password != password1){
+            alert("Password not match!");
+            return;
+        }
+
+        var input = document.getElementsByClassName("input");
+        for(var i = 0; i < input.length; ++i){
+            input[i].value = "";
+        }
+
+        var name = document.getElementById("username");
+        name.setAttribute("id", "name");
+        name.setAttribute("placeholder", "Real name");
+
+        var email = document.getElementById("password");
+        email.setAttribute("type", "text");
+        email.setAttribute("id", "email");
+        email.setAttribute("placeholder", "Email");
+
+        var phone = document.getElementById("password1");
+        phone.setAttribute("type", "text");
+        phone.setAttribute("id", "phone");
+        phone.setAttribute("placeholder", "Phone");
+
+        document.getElementById("button").value = "Sign up";
+        document.getElementById("button").setAttribute("onclick", "signUp()");
+    }
+	function signUp(){
+        document.getElementById("loading").style.display = "block";
+
+		var userData={
+			"logname": logname,
+			"password": password,
+			"name": realname,
+			"phone": phone,
+			"email": email
+		};
+		var urlStrPapername = "http://349624222.wicp.net:25995/broker/register";
+		$.ajax({
+			url: urlStrPapername,
+			contentType: "application/x-www-form-urlencoded",
+			type: "POST",
+			async: true,
+			data: userData,
+			error: function (data) {
+				alert(data);
+			},
+			success: function(data, status, e) {
+				var json_data = JSON.parse(data);
+				if(json_data.result == 1){
+					window.location.href="login.html";
+				}
+			}
+		});	
+	}
+</script>
+</body>
+
+</html>

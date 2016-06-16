@@ -1,0 +1,380 @@
+<html>
+
+<head>
+   <link href="css/bootstrap.css" rel="stylesheet">
+   <link href="css/reverse-3d.css" rel="stylesheet">
+   <link href="css/dropdownlist.css" rel="stylesheet">
+   <link href="css/my_style.css" rel="stylesheet">
+
+   <script src="js/jquery.min.js"></script>
+   <script src="js/bootstrap.js"></script>
+   <script src="js/highcharts.js"></script>
+   <script src="js/dropdownlist.js"></script>
+   <script src="js/darkblue.theme.js"></script>
+   <script src="js/cookie.js"></script>
+   <script src="js/function.js"></script>
+
+</head>
+
+<body style="padding:90px">
+
+<nav class="navbar navbar-inverse navbar-fixed-top test" role="navigation">
+   <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" 
+         data-target="#example-navbar-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Morgan</a>
+   </div>
+   <div class="collapse navbar-collapse" id="example-navbar-collapse">
+      <ul class="nav navbar-nav">
+         <li>
+         	<a href="login.html" id="signin">Sign in</a>
+         </li>
+         <li>
+         	<a href="register.html" id="signup" >Sign up
+          	<span class="badge btn"></span></a>
+         </li>
+          <li style="display: none;">
+            <a href="#" id="credit">Credit</a>
+          </li>
+         
+         <li class="dropdown">
+         		<a class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+         		language<span class="caret"></span></a>
+            	<ul class="dropdown-menu">
+               		<li><a role="menuitem" tabindex="-1" href="#">中文</a></li>
+               		<li><a role="menuitem" tabindex="-1" href="#">English</a></li>
+            	</ul>
+        </li>
+      </ul>
+    </div>
+</nav>
+<div>
+    <div class="row">
+
+        <div class="">
+            <div class="page-header">
+                <h1>Orders</h1>
+                <h3>
+                    <div style="padding-right:10px">
+                        <select id="select-order"><option value="1">Pending Orders</option><option value="2">Processed Orders</option><option value="3">Buy Order</option><option value="4">Sell Order</option></select>
+                    </div>
+                </h3>
+                <h3>选择可以匹配的订单
+                <button class="btn btn-primary btn-lg" onclick="mathchTwoOrder();return false;">
+                    手动处理
+                </button>
+                </h3>
+            </div>
+        </div>
+
+    </div>
+	<div class="row">
+		<div class="col-lg-6">
+            <div id="order-content">
+            </div>
+		</div>
+		
+		<div class="col-lg-6" >
+            <div class="jumbotron" >
+                <div id="container" class="jum-chart"></div>
+            </div>
+		</div>
+	</div>
+	
+</div>
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="match-window" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Match your order
+                </h4>
+            </div>
+            <div style="padding:10px">
+                <div class="row">
+                    <div class="col-lg-1 col-md-1"></div>
+                    <div class="col-lg-10 col-md-10">
+                        <h4>Please choose the match number:</h4>
+                        <div class="input-group" style="padding:10px">
+                            <input type="text" id="input-number" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="clearInput(this);return false;">Clear</button>
+                            </span>
+                        </div><!-- /input-group -->
+                        <h4>Please choose the match price:</h4>
+                        <div class="input-group" style="padding:10px">
+                            <input type="text" id="input-price" class="form-control">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="clearInput(this);return false;">Clear</button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </div>
+                    <div class="col-lg-1 col-md-1"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">Close
+                </button>
+                <button type="button" class="btn btn-primary" onclick="submitMatch();return false;">
+                    Submit
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+</nav>
+
+<script>
+    var choice_id1 = 0;
+    var choice_id2 = 0;
+    var choice_trader1 = "";
+    var choice_trader2 = "";
+    var choice_type1 = "";
+    var choice_type2 = "";
+    var pos = 0;
+
+    $(document).ready(function(){
+        initNavbar();
+        var orders = JSON.parse(getPendingOrders());
+        refreshOrderView(orders, "0");
+        selectionListener();
+    });
+
+    function selectionListener(){
+        // 通过原生select控件创建自定义下拉框
+        var ddl_picture = DropDownList.create({
+            select:$('#select-order'),
+            attrs:{
+                column :5,
+                width :200
+            }
+        });
+        ddl_picture.change(function(){
+            if(ddl_picture.val() == 1){
+                var orders = JSON.parse(getPendingOrders());
+                refreshOrderView(orders, "0");
+            }else if(ddl_picture.val() == 2){
+                var orders = JSON.parse(getProcessedOrder());
+                refreshOrderView(orders, "1");
+            }else if(ddl_picture.val() == 3){
+                var orders = JSON.parse(getPendingOrders());
+                refreshOrderView(orders, "2");
+            }else if(ddl_picture.val() == 4){
+                var orders = JSON.parse(getSellOrder());
+                refreshOrderView(orders, "3");
+            }
+        });
+    }
+
+    function refreshOrderView(orders, status){
+        //alert(status);
+        var order_content = document.getElementById("order-content");
+        order_content.innerHTML = "";
+        var ware_arr = new Array();
+        var order_cnt = new Array();
+        var match_button = "";
+
+        for(var i = 0; i < orders.length; ++i){
+            if(status == "0" || status == "2" || status == "3" ){
+                match_button = "<div class=\"pull-right\">" +
+                "<a href=\"javascript:void(0)\" onclick=\"dealOrder(" + orders[i].orderid + ");return false;\">Match it</a>" +
+                "</div>";
+            }else{
+                match_button = "";
+            }
+            var order_type = "";
+            if(orders[i].type == "0"){
+                order_type = "市价订单";
+            }else if(orders[i].type == "1"){
+                order_type = "限价订单";
+            }else if(orders[i].type == "2"){
+                order_type = "止损单";
+            }
+            if(orders[i].buyorsell == "buy"){
+                order_type += "-购买";
+            }else{
+                order_type += "-出售";
+            }
+
+            var new_item = "<div class=\"media\">" +
+                    "<a href=\"#\">" +
+                    "<div class=\"pull-left\">" +
+                    "<img id=\"" + orders[i].orderid + "\" class=\"media-object img-circle\" src=\"imgs/avatar.png\" alt=\"Media Object\" onclick=\"choose(this,'" +
+                    orders[i].logname + "','" + orders[i].buyorsell + "');return false;\">" +
+                    "</div>" +
+                    "</a>" +
+
+                    "<div class=\"media-body\">" +
+                    "<h4>Ware:" + orders[i].name +"</h4>" +
+                    "<h4>From:" + orders[i].logname +"</h4>" +
+                    "<h4>Type:" + order_type +"</h4>" +
+                    "</div>" +
+
+                    "<div class=\"media-body\">" +
+                    "<h4>Price:" +  orders[i].price + "</h4>" +
+                    "<h4>Ware number:" + orders[i].number + "</h4>" +
+                    "<h4>Left number:" + orders[i].now + "</h4>" +
+                    "</div>" +
+
+                    "<div class=\"pull-right cancel_order\">" +
+                    "<a href=\"javascript:void(0)\" onclick=\"cancelOrder(" + orders[i].orderid + ")\">Cancel order</a>" +
+                    "</div>" + match_button +
+                    "</div>";
+            if(status == "2"){
+                if(orders[i].buyorsell != "buy"){
+                    new_item = "";
+                }
+            }else if(status == "3"){
+                if(orders[i].buyorsell != "sell"){
+                    new_item = "";
+                }
+            }
+            order_content.innerHTML += new_item;
+            var index = ware_arr.indexOf(orders[i].name);
+            if(index != -1){
+                order_cnt[index] += 1;
+            }else{
+                ware_arr[ware_arr.length] = orders[i].name;
+                order_cnt[order_cnt.length] = 1;
+            }
+        }
+        var order_collect = new Array();
+        for(var i = 0; i < ware_arr.length; ++i){
+            order_collect[i] = {name:ware_arr[i], data:[order_cnt[i]]};
+        }
+
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Order'
+            },
+            subtitle: {
+                text: 'Source: deephjs.com'
+            },
+            xAxis: {
+                categories: ["Ware"]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Order Count'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: order_collect,
+            credits: {
+                text: 'deephjs.com',
+                href: '#'
+            }
+        });
+    }
+
+    function logoutAndRefresh(){
+        logout();
+        window.location.reload();
+    }
+
+    function choose(item, logname, type){
+        if(item.src == "http://localhost:63342/MorganStanley/imgs/avatar.png"){
+            item.src = "imgs/avatar_click.png";
+            if(pos == 0){
+                choice_id1 = item.id;
+                choice_trader1 = logname;
+                choice_type1 = type;
+            }
+            else{
+                if(choice_id2 != 0) {
+                    document.getElementById(choice_id2).src = "imgs/avatar.png";
+                }
+                choice_id2 = item.id;
+                choice_trader2 = logname;
+                choice_type2 = type;
+            }
+            if(pos != 2){
+                pos += 1;
+            }
+        }else{
+            if(pos == 1){
+                choice_id1 = 0;
+                pos -= 1;
+            }else if(pos == 2){
+                if(item.id == choice_id1){
+                    choice_id1 = choice_id2;
+                    choice_trader1 = choice_trader2;
+                    choice_type1 = choice_type2;
+                }
+                choice_id2 = 0;
+                choice_trader2 = "";
+                choice_type2 = "";
+                pos -= 1;
+            }
+
+            item.src = "imgs/avatar.png";
+        }
+    }
+
+    function mathchTwoOrder(){
+        if(choice_id2 == 0){
+            alert("choice");
+            return;
+        }
+        if(choice_trader1 == choice_trader2){
+            alert("You can not match orders from the same trader!");
+            return;
+        }
+        if(choice_type1 == choice_type2){
+            alert("You can not match the same type of Order!");
+            return;
+        }
+        /*document.getElementById("name1").innerHTML = "Order From " + choice_trader1;
+        document.getElementById("name2").innerHTML = "Order From " + choice_trader2;*/
+
+        $('#match-window').modal('toggle');
+
+    }
+
+    function submitMatch() {
+        var number = document.getElementById("input-number").value;
+        var price = document.getElementById("input-price").value;
+        matchOrder(choice_id1, choice_id2, choice_type1, choice_type2, number, price);
+        window.location.reload();
+    }
+
+    function clearInput(item){
+        var input = item.parentNode.parentNode;
+    }
+</script>
+
+</body>
+</html>

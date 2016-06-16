@@ -1,0 +1,99 @@
+.nav-block {
+	background:url(../imgs/block1.png);
+	background-repeat:no-repeat;
+}
+.nav-bar {
+	background:url(../imgs/nav.jpg);
+	background-size:cover;
+}
+
+.flip-container{
+	font-weight:400;
+	font-family:Verdana,Sans-serif;
+}
+
+.nav-header{
+	font-weight:400;
+	font-family:Arial,Verdana,Sans-serif;
+	color:#fff;
+}
+
+.order-front{
+	background:url(../imgs/order-front.png);
+	background-size:cover;
+}
+.order-back{
+	background:url(../imgs/order-back.png);
+	background-size:cover;
+}
+
+.user-front{
+	background:url(../imgs/user-front.png);
+	background-size:cover;
+}
+.user-back{
+	background:url(../imgs/user-back.png);
+	background-size:cover;
+}
+
+.transaction{
+    background:url(../imgs/transaction.png);
+}
+
+.nav-menu{
+	padding:20px;
+}
+.nav-menu a{
+	color:#fff;
+	font-weight:200;
+	padding-left:5px;
+	padding-top:10px;
+}
+
+.nav-menu li{
+    padding-bottom: 10px;
+}
+
+body{
+	background:url(../imgs/background.jpg);
+	background-size:cover;
+	background-color:transparent;
+    background-repeat:repeat-y;
+}
+.jumbotron{
+	background:url(../imgs/block.png);
+	background-size:cover;
+	
+}
+
+.media{
+    padding:10px;
+    border-bottom:1px solid rgba(0, 0, 0, 0.20);
+
+}
+.media-body{
+    padding:20px;
+}
+#cancel_order{
+    ::before:
+}
+.cancel_order:before{
+    content: "No matching?";
+	color: #545209;
+}
+
+.jum-chart{
+    min-width: 80%;
+    height: 80%;
+    padding-left:15px;
+    padding-right:15px;
+}
+
+marquee{
+	padding:40px;
+}
+
+.media a{
+	color: rgba(0, 86, 161, 0.98);
+}
+

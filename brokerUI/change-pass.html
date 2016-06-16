@@ -1,0 +1,44 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link href="css/form.css" rel="stylesheet">
+    <link href="css/my_style.css" rel="stylesheet">
+
+    <script src="js/jquery.min.js"></script>
+
+
+
+</head>
+<body>
+<div class="container" style="padding:40px">
+    <section id="content">
+        <form action="">
+            <h1>Password</h1>
+            <div>
+                <input type="text" placeholder=" New password" required="" id="username" />
+            </div>
+            <div>
+                <input type="password" placeholder="Confirm your password" required="" id="password" />
+            </div>
+            <div>
+                <input type="button" value="Confirm" onclick="changePass()"/>
+            </div>
+        </form><!-- form -->
+
+        <div id="loading" style="padding-bottom:20px;display: none"><img src="imgs/test.gif" height="50" width="50"/></div>
+        <div class="button">
+            <a href="index.html">Home</a>
+        </div><!-- button -->
+
+    </section><!-- content -->
+
+</div><!-- container -->
+
+<script>
+    function changePass(){
+        document.getElementById("loading").style.display = "block";
+    }
+</script>
+</body>
+</html>

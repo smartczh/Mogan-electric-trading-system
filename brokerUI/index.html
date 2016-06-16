@@ -1,0 +1,285 @@
+<html>
+
+<head>
+   <link href="css/bootstrap.css" rel="stylesheet">
+   <link href="css/reverse-3d.css" rel="stylesheet">
+   <link href="css/my_style.css" rel="stylesheet">
+   
+   <script src="js/jquery.min.js"></script>
+   <script src="js/bootstrap.js"></script>
+   <script src="js/highcharts.js"></script>
+   <script src="js/darkblue.theme.js"></script>
+   <script src="js/cookie.js"></script>
+   <script src="js/function.js"></script>
+   <script src="js/socket.io.js"></script>
+
+</head>
+<body style="padding:90px">
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top test" role="navigation">
+   <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" 
+         data-target="#example-navbar-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Morgan</a>
+   </div>
+   <div class="collapse navbar-collapse" id="example-navbar-collapse">
+      <ul class="nav navbar-nav">
+         <li>
+         	<a href="login.html" id="signin">Sign in</a>
+         </li>
+         <li>
+         	<a href="register.html" id="signup" >Sign up
+          	<span class="badge btn"></span></a>
+         </li>
+         <li style="display: block;">
+             <a href="#" id="credit">Credit</a>
+         </li>
+         
+         <li class="dropdown">
+         		<a class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+         		language<span class="caret"></span></a>
+            	<ul class="dropdown-menu">
+               		<li><a role="menuitem" tabindex="-1" href="#">中文</a></li>
+               		<li><a role="menuitem" tabindex="-1" href="#">English</a></li>
+            	</ul>
+        </li>
+      </ul>
+    </div>
+</nav>
+
+
+
+<div class="">
+<div class="page-header">
+  <h1 style="color:#000000;">Distributed Commodities OTC</h1>
+  <h1><small style="color:#ffffff;">Electonic Trading System</small></h1>
+</div>
+</div>
+
+<div id="block" style="padding:40px">
+    <div class = "row">
+        <div class="col-lg-8">
+            <div class="jumbotron">
+                <h2 style="color:#000000; padding-left:10px">Market Depth</h2>
+                <div class="row">
+                    <div class="col-lg-8">
+
+                        <h2 style="padding-left:10px"><small id="time" style="color:#ffffff;"></small></h2>
+                        <div id="histogram" class="jum-chart" style="height: 50%"></div>
+                        <div class="row">
+                            <div class="col-lg-1" style="padding-left:50px;padding-top:10px"><a href="market-depth.html"><h4 style="color:#fff">more>></h4></a></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div style="padding-top:48px">
+                            <div class="jumbotron">
+                                <h3 style="color:#fff; padding-left:10px">New Order <img src="imgs/horn.png" width="20" height="20"/></h3>
+                                <marquee direction="up" height="200" id="new-order">
+                                </marquee>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-4">
+            <div class="market">
+                <li class="flip-container" ontouchstart="this.classList.toggle('hover');">
+
+                    <div class="front order-front">
+                        <h4 class="nav-header" style="padding:20px">Market</h4>
+                    </div>
+                    <div class="back order-back">
+                        <div class="nav-menu">
+                            <h4 class="nav-header">Market</h4>
+                            <ul>
+                                <li><a href="javascript:void(0)" onclick="viewOrders()">View Orders</a></li>
+                                <li><a href="javascript:void(0)" onclick="viewMarket()">Market Depth</a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </div>
+
+            <div class="user">
+                <li class="flip-container " ontouchstart="this.classList.toggle('hover');">
+
+                    <div class="front user-front">
+                        <h4 class="nav-header" style="padding:20px">User</h4>
+                    </div>
+                    <div class="back user-back">
+                        <div class="nav-menu">
+                            <h4 class="nav-header">Personal infomation</h4>
+                            <ul>
+                                <li><a href="javascript:void(0)" onclick="changePass()">forget password?</a></li>
+                                <li><a href="javascript:void(0)" onclick="myInfo()">My infomation</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </div>
+
+        </div>
+    </div><!-- row -->
+
+</div><!-- block -->
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+</nav>
+
+<script>
+    function logoutAndRefresh(){
+        logout();
+        //location.replace(location.href);
+        window.location.reload();
+    }
+    function viewOrders(){
+        if(isLogin()) {
+            window.location.href = "orders.html";
+        }else{
+            window.location.href = "login.html";
+        }
+    }
+    function viewMarket(){
+        if(isLogin() == true){
+            window.location.href = "market-depth.html";
+        }else{
+            window.location.href = "login.html";
+        }
+    }
+
+    function changePass(){
+        if(isLogin()){
+            window.location.href = "change-pass.html";
+        }else{
+            window.location.href = "login.html";
+        }
+    }
+
+    function myInfo(){
+        if(isLogin()){
+            window.location.href = "my-info.html";
+        }else{
+            window.location.href = "login.html";
+        }
+    }
+
+    function viewMyTrade(){
+        if(isLogin()){
+            window.location.href = "my-trade.html";
+        }else{
+            window.location.href = "login.html";
+        }
+    }
+    function getData(){
+        var urlStrPapername = "http://349624222.wicp.net:25995/broker/getSellWareNumber";
+        $.ajax({
+            url: urlStrPapername,
+            type: "GET",
+            async: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            error: function (data) {
+                alert("连接出错啦，可能无法获取最新信息！");
+            },
+            success: function(data, status, e) {
+                var now_time = new Date();
+                document.getElementById("time").innerHTML = "Latest update:" + now_time.toLocaleTimeString();
+
+                var json_data = JSON.parse(data);
+
+                var ware = new Array();
+                var depth = new Array();
+                for(var i = 0; i < json_data.length; ++i){
+                    ware[i] = json_data[i].wareid;
+                    depth[i] = {name:json_data[i].wareid,data:[json_data[i].number]};
+                }
+                $('#histogram').highcharts({
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Market Depth'
+                    },
+                    subtitle: {
+                        text: 'Source: deephjs.com'
+                    },
+                    xAxis: {
+                        categories:["Ware"]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Market depth'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series:depth,
+                    credits: {
+                        text: 'deephjs.com',
+                        href: '#'
+                    }
+                });
+            }
+        });
+    }
+    $(document).ready(function(){
+        initNavbar();
+        getData();
+        window.setInterval(getData, 20000);
+
+        var urlStrPapername = "http://349624222.wicp.net:25995/broker/getSession";
+        $.ajax({
+            url: urlStrPapername,
+            contentType: "application/x-www-form-urlencoded",
+            type: "GET",
+            async: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            error: function (data) {
+                alert(JSON.stringify(data));
+                //return false;
+            },
+            success: function(data, status, e) {
+                var json_data = JSON.parse(data);
+                var brokerid = json_data.idd;
+                var socket=io.connect('http://349624222.wicp.net:25995');//与服务器进行连接
+                socket.emit('brokerLogin', brokerid);
+                socket.on('new order', function(msg){
+                    //alert(JSON.stringify(msg));
+                    var json_data = JSON.parse(msg);
+                    document.getElementById("new-order").innerHTML += "<p>"
+                             + "New order from " + json_data.logname + " " + json_data.time + "</p>";
+                });
+            }
+        });
+
+    });
+</script>
+
+   
+</body>
+</html>

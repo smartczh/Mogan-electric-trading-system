@@ -1,0 +1,90 @@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Login</title>
+	<link href="css/form.css" rel="stylesheet">
+	<link href="css/my_style.css" rel="stylesheet">
+	
+   <script src="js/jquery.min.js"></script>
+    <script src="js/socket.io.js"></script>
+
+	
+</head>
+<body>	
+	<div class="container" style="padding:40px">
+		<section id="content">
+		<form action="">
+			<h1>Login</h1>
+			<div>
+				<input type="text" placeholder="Username" required="" id="username" />
+			</div>
+			<div>
+				<input type="password" placeholder="Password" required="" id="password" />
+			</div>
+			<div>
+				<input type="button" value="Log in" onclick="login()"/>
+				<a href="#">Lost your password?</a>
+				<a href="register.html">Register</a>
+			</div>
+		</form><!-- form -->
+
+        <div id="loading" style="padding-bottom:20px;display: none"><img src="imgs/test.gif" height="50" width="50"/></div>
+		<div class="button">
+			<a href="index.html">Home</a>
+		</div><!-- button -->
+
+		</section><!-- content -->
+
+	</div><!-- container -->
+
+
+	
+	
+<script>
+function login(){
+    document.getElementById("loading").style.display = "block";
+	var username = document.getElementById("username").value;
+	var password = document.getElementById("password").value;
+	
+	if(username == "" || password == ""){
+		alert("username or password can not be empty");
+		return;
+	}
+	
+	var userData={
+			"logname": username,
+			"password": password
+	};
+	
+	var urlStrPapername = "http://349624222.wicp.net:25995/broker/login";
+    //var urlStrPapername = "http://192.168.0.120:8081/broker/login";
+
+		$.ajax({
+			url: urlStrPapername,
+			contentType: "application/x-www-form-urlencoded",
+			type: "POST",
+			async: true,
+			data: userData,
+            xhrFields: {
+                withCredentials: true
+            },
+			error: function (data) {
+				alert(JSON.stringify(data));
+			},
+			success: function(data, status, e) {
+				if(data.result == 1){
+					//var exdate=new Date();
+					//exdate.setDate(exdate.getDate()+3);
+					//document.cookie = "username=" +escape(username)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
+					document.cookie = "username=" + username;
+					window.location.href="index.html";
+				}else{
+                    document.getElementById("loading").style.display = "none";
+                    alert("登录失败，请确认密码或用户名正确");
+                }
+			}
+		});	
+}
+</script>	
+</body>
+</html>

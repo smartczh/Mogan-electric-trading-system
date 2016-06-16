@@ -1,0 +1,164 @@
+<html>
+
+<head>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/reverse-3d.css" rel="stylesheet">
+    <link href="css/mycss.css" rel="stylesheet">
+    <link href="css/my_style.css" rel="stylesheet">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/dropdownlist.js"></script>
+    <script src="js/darkblue.theme.js"></script>
+    <script src="js/cookie.js"></script>
+    <script src="js/function.js"></script>
+
+</head>
+<body style="padding:90px">
+<nav class="navbar navbar-inverse navbar-fixed-top test" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#example-navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">Morgan</a>
+    </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="login.html" id="signin">Sign in</a>
+            </li>
+            <li>
+                <a href="register.html" id="signup" >Sign up
+                    <span class="badge btn"></span></a>
+            </li>
+            <li style="display: block;">
+                <a href="#" id="credit">Credit</a>
+            </li>
+
+            <li class="dropdown">
+                <a class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                    language<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a role="menuitem" tabindex="-1" href="#">中文</a></li>
+                    <li><a role="menuitem" tabindex="-1" href="#">English</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="">
+    <div class="page-header">
+        <h1 style="color:#000000;">Market Depth</h1>
+        <h1><small id="time" style="color:#ffffff;"></small></h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>wareid</th>
+                    <th>market depth</th>
+                </tr>
+                </thead>
+                <tbody id="table-content">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6">
+        <div id="histogram" style="min-width:80%;height:80%;padding-left:10px;padding-right:10px"></div>
+    </div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+</nav>
+
+<script>
+    function getData(){
+        var urlStrPapername = "http://349624222.wicp.net:25995/broker/getSellWareNumber";
+        $.ajax({
+            url: urlStrPapername,
+            type: "GET",
+            async: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            error: function (data) {
+                alert("连接出错啦！");
+            },
+            success: function(data, status, e) {
+                //alert(data);
+                var now_time = new Date();
+                document.getElementById("time").innerHTML = "Latest update:" + now_time.toLocaleTimeString();
+                document.getElementById("table-content").innerHTML = ""; //清空table
+
+                var json_data = JSON.parse(data);
+
+                var ware = new Array();
+                var depth = new Array();
+                for(var i = 0; i < json_data.length; ++i){
+                    ware[i] = json_data[i].wareid;
+                    depth[i] = {name:json_data[i].wareid,data:[json_data[i].number]};
+                    document.getElementById("table-content").innerHTML += "<tr> <td>" + json_data[i].wareid + "</td><td>" + json_data[i].number + "</td> </tr>";
+                }
+                $('#histogram').highcharts({
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Order'
+                    },
+                    subtitle: {
+                        text: 'Source: deephjs.com'
+                    },
+                    xAxis: {
+                        categories:["Ware"]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Market depth'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series:depth,
+                    credits: {
+                        text: 'deephjs.com',
+                        href: '#'
+                    }
+                });
+            }
+        });
+    }
+    $(document).ready(function(){
+        initNavbar();
+        getData();
+        window.setInterval(getData, 30000);
+    });
+
+</script>
+   
+</body>
+</html>

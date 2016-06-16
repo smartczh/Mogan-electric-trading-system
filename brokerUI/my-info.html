@@ -1,0 +1,113 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>My Info</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/reverse-3d.css" rel="stylesheet">
+    <link href="css/form.css" rel="stylesheet">
+    <link href="css/my_style.css" rel="stylesheet">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/darkblue.theme.js"></script>
+    <script src="js/cookie.js"></script>
+    <script src="js/function.js"></script>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top test" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#example-navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">Morgan</a>
+    </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="login.html" id="signin">Sign in</a>
+            </li>
+            <li>
+                <a href="register.html" id="signup" >Sign up
+                    <span class="badge btn"></span></a>
+            </li>
+
+            <li class="dropdown">
+                <a class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                    language<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a role="menuitem" tabindex="-1" href="#">中文</a></li>
+                    <li><a role="menuitem" tabindex="-1" href="#">English</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container" style="padding:40px">
+    <section id="content">
+        <form action="">
+            <h1>Personal data</h1>
+            <div style="padding:15px">
+                <h3 id="realname">Real name</h3>
+            </div>
+            <div style="padding:15px">
+                <h3 id="email">Email</h3>
+            </div>
+            <div style="padding:15px">
+                <h3 id="phone">Phone</h3>
+            </div>
+            <div style="padding:15px">
+                <h3 id="credit">Credit</h3>
+            </div>
+        </form><!-- form -->
+
+        <div id="loading" style="padding-bottom:20px;display: none"><img src="imgs/test.gif" height="50" width="50"/></div>
+        <div class="button">
+            <a href="index.html">Home</a>
+        </div><!-- button -->
+
+    </section><!-- content -->
+
+</div><!-- container -->
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+</nav>
+
+<script>
+    $(document).ready(function(){
+        initNavbar();
+        //var urlStrPapername = "http://192.168.0.120:8081/broker/getDispatchStatus0";
+        var urlStrPapername = "http://349624222.wicp.net:25995/broker/getMyself";
+        $.ajax({
+            url: urlStrPapername,
+            contentType: "application/x-www-form-urlencoded",
+            type: "GET",
+            async: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            error: function (data) {
+                alert(JSON.stringify(data));
+            },
+            success: function(data, status, e) {
+                //alert(data);
+                var json_data = JSON.parse(data);
+                alert(json_data.name);
+                document.getElementById("realname").innerHTML = "Real name:" + json_data.name;
+                document.getElementById("phone").innerHTML = "Phone:" + json_data.phone;
+                document.getElementById("email").innerHTML = "Email:" + json_data.email;
+                document.getElementById("credit").innerHTML = "Credit:" + json_data.mark;
+            }
+        });
+
+    });
+</script>
+</body>
+</html>
