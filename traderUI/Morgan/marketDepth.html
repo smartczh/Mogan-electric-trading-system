@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Market Depth</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <link href="style/css/bootstrap.css" rel='stylesheet' type='text/css'/>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="style/js/jquery-1.11.1.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="style/css/style.css" rel='stylesheet' type='text/css'/>
+    <!-- Custom Theme files -->
+    <!-- webfonts -->
+    <link href='http://fonts.useso.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+    <!-- webfonts -->
+    <!-- dropdown -->
+    <script src="style/js/jquery.easydropdown.js"></script>
+    <link href="style/css/nav.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="style/css/index.css" rel="stylesheet" type="text/css">
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="style/js/move-top.js"></script>
+    <script type="text/javascript" src="style/js/easing.js"></script>
+    <script type="text/javascript" src="style/js/angular.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+            });
+        });
+    </script>
+
+</head>
+<body ng-app="marketDepth-App" ng-controller="marketDepth-Ctrl">
+
+<div class="banner inner-banner">
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="style/images/logo.jpg" alt=""></a>
+            </div>
+
+            <div class="banner-top">
+                <ul class="nav banner-nav">
+                    <li class="dropdown1"><a class="down-scroll active">Market Depth</a>
+                        <ul class="dropdown2">
+                            <li><a href="historyTrades.html">History Trades</a></li>
+                            <li><a href="marketDepth.html?pageid=1">Market</a></li>
+                        </ul>
+
+
+                    </li>
+                    <li class="dropdown1"><a href="trade.html">Buy&Sell</a></li>
+                    <li class="dropdown1"><a class="down-scroll" ng-model="username">{{username}}</a>
+                        <ul class="dropdown2">
+                            <li><a href="personalCentre.html">Personal Centre</a></li>
+                            <li><a href="businessSettings.html">Business Settings</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="bolg-posts" >
+    <div class="container">
+        <div class="blog" >
+            <div class="col-md-6 blog-top" ng-repeat="x in brokers">
+                <div class="blog-in">
+                    <img src="./style/images/head.png" alt=" ">
+                    <div class="blog-grid">
+                        <h3><a>{{x.logname}}</a></h3>
+                        <p>{{x.phone}}
+                        </p>
+                        <a href="marketDepthInfo.html?brokerid={{x.id}}" class="more">Market Depth</a>
+                        <div class="date">
+                            <span class="date-in"><i> </i>{{x.email}}</span>
+                            <a class="comments"><i></i>24</a>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <i class="black"> </i>
+            </div>
+
+
+            <div class="clearfix"></div>
+
+        </div>
+        <ul class="start" >
+            <li><a class="next" ng-model="prevNum" href="marketDepth.html?pageid={{prevNum}}">Prev</a></li>
+            <li ng-repeat="x in pageNum"><a href="marketDepth.html?pageid={{x}}">{{x}}</a></li>
+            <li><a class="next" ng-model="nextNum" href="marketDepth.html?pageid={{nextNum}}">Next</a></li>
+        </ul>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" src="js/marketDepth.js"></script>
+
+
+</body>
+</html>

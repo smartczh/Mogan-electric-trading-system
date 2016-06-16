@@ -1,0 +1,36 @@
+.human-info-container{
+    padding-left: 0px;
+    margin-left: 0px;
+    width: 100%;
+}
+
+.human-info-box {
+    margin: 0 0% 0% 0;
+    height: 1400px;
+    width: 15%;
+}
+
+.marketDepth-table{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.caption-font{
+    text-align: center;
+}
+
+.table-connect{
+    margin-bottom: 0px;
+}
+
+.chart-connect{
+    position: relative;
+    width: 700px;
+    float: left;
+}
+
+.container-main{
+    height: 400px;
+    width: 80%;
+    float: left;
+}

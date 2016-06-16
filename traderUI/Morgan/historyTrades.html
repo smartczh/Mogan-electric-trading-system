@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Trade</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <link href="style/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="style/js/jquery-1.11.1.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="style/css/style.css" rel="stylesheet" type="text/css">
+    <!-- Custom Theme files -->
+    <!-- webfonts -->
+    <link href='http://fonts.useso.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+    <!-- webfonts -->
+    <!-- dropdown -->
+    <script src="style/js/jquery.easydropdown.js"></script>
+    <link href="style/css/nav.css" rel="stylesheet" type="text/css" media="all">
+    <link href="style/css/index.css" rel="stylesheet" type="text/css">
+    <link href="style/css/marketDepthInfo.css" rel="stylesheet" type="text/css">
+    <link href="style/css/trade.css" rel="stylesheet" type="text/css">
+    <link href="style/css/historyTrades.css" rel="stylesheet" type="text/css">
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="style/js/move-top.js"></script>
+    <script type="text/javascript" src="style/js/easing.js"></script>
+    <script type="text/javascript" src="style/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="style/js/angular.min.js"></script>
+
+    <!--    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
+    <!--    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>-->
+
+    <script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script>
+    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+            });
+        });
+    </script>
+</head>
+<body ng-app="index-App" ng-controller="index-Ctrl">
+
+<div class="banner inner-banner">
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="style/images/logo.jpg" alt=""></a>
+            </div>
+            <div class="banner-top">
+                <ul class="nav banner-nav">
+                    <li class="dropdown1"><a class="down-scroll active">Market Depth</a>
+                        <ul class="dropdown2">
+                            <li><a href="historyTrades.html">History Trades</a></li>
+                            <li><a href="marketDepth.html?pageid=1">Market</a></li>
+                        </ul>
+
+
+                    </li>
+                    <li class="dropdown1"><a href="trade.html">Buy&Sell</a></li>
+                    <li class="dropdown1"><a class="down-scroll" ng-model="username">{{username}}</a>
+                        <ul class="dropdown2">
+                            <li><a href="personalCentre.html">Personal Centre</a></li>
+                            <li><a href="businessSettings.html">Business Settings</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 tradestable">
+    <table class="table table-bordered table-connect">
+        <thead>
+        <tr>
+            <th class="caption-font">Trades History</th>
+        </tr>
+        </thead>
+    </table>
+
+    <table class="table table-bordered">
+
+        <thead>
+        <tr>
+            <th>Orderid</th>
+            <th>Type</th>
+            <th>Action</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Item</th>
+            <th>Time</th>
+        </tr>
+        </thead>
+        <tbody id="historyTable">
+        </tbody>
+    </table>
+</div>
+
+
+<div class="bolg-posts page-Num">
+    <div class="container">
+        <div class="blog">
+            <ul class="start">
+                <li><span class="prev">Prev</span></li>
+                <li><span>1</span></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">6</a></li>
+                <li><a href="#">7</a></li>
+                <li><a href="#">8</a></li>
+                <li><span>.....</span></li>
+                <li><a href="#">12</a></li>
+                <li><a href="#" class="next">Next</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+
+<script type="text/javascript" src="js/historyTrades.js"></script>
+
+
+
+</body>
+</html>

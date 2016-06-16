@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" src="style/js/angular.min.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <link href="style/css/bootstrap.css" rel='stylesheet' type='text/css'/>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="style/js/jquery-1.11.1.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="style/css/style.css" rel='stylesheet' type='text/css'/>
+    <!-- Custom Theme files -->
+    <!-- webfonts -->
+    <link href='http://fonts.useso.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+    <!-- webfonts -->
+    <!-- dropdown -->
+    <script src="style/js/jquery.easydropdown.js"></script>
+    <link href="style/css/nav.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="style/css/index.css" rel="stylesheet" type="text/css">
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="style/js/move-top.js"></script>
+    <script type="text/javascript" src="style/js/easing.js"></script>
+    <script type="text/javascript" src="style/js/angular.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+            });
+        });
+    </script>
+
+    <!-- end-smoth-scrolling -->
+</head>
+<!-- Header Starts Here -->
+<body>
+<div class="banner" ng-app="index-App" ng-controller="index-Ctrl">
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="style/images/logo.jpg" alt=""></a>
+            </div>
+
+            <div class="banner-top">
+                <ul class="nav banner-nav">
+                    <li class="dropdown1"><a class="down-scroll">Market Depth</a>
+                        <ul class="dropdown2">
+                            <li><a href="historyTrades.html">History Trades</a></li>
+                            <li><a href="marketDepth.html?pageid=1">Market</a></li>
+                        </ul>
+
+
+                    </li>
+                    <li class="dropdown1"><a href="trade.html">Buy&Sell</a></li>
+                    <li class="dropdown1"><a class="down-scroll hidden" ng-model="username">{{username}}</a>
+                        <ul class="dropdown2">
+                            <li><a href="personalCentre.html">Personal Centre</a></li>
+                            <li><a href="logout.html">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="banner-info">
+            <h1>We are your best choice</h1>
+            <p>Morgan Stanley Distributed Commodities OTC Electronic Trading System</p>
+        </div>
+    </div>
+
+    <div class="panel panel-index panel-default ">
+        <div class="panel-heading">
+            JOIN US!
+        </div>
+        <div class="panel-body" >
+
+            <div class="btn-group select-lor">
+                <button type="button" class="btn btn-default active" id="btn-log">登录</button>
+                <button type="button" class="btn btn-default" id="btn-reg">注册</button>
+            </div>
+
+            <form class="form-horizontal form-reg hidden" role="form" id="form-reg">
+                <div class="form-group">
+                    <label for="username" class="col-sm-2 control-label font-input">昵称</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="username"
+                               placeholder="请输入昵称" onkeyup="showHint()">
+                    </div>
+                    <div class="col-sm-2">
+                       <!-- <p id="hint" class="font-input hidden">UserName Existed</p>-->
+                        <img id="suc" src="style/images/true.png" class="hidden">
+                        <img id="fai" src="style/images/false.png" class="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label font-input">真实姓名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="name"
+                               placeholder="请输入名字">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label font-input">密码</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="password"
+                               placeholder="请输入密码"" onkeyup="showEqual()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password-confirm" class="col-sm-2 control-label font-input">重复密码</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="password-confirm"
+                               placeholder="请再次确认密码" onkeyup="showEqual()">
+                    </div>
+                    <div class="col-sm-2">
+                        <!-- <p id="hint" class="font-input hidden">UserName Existed</p>-->
+                        <img id="equal" src="style/images/true.png" class="hidden">
+                        <img id="notequal" src="style/images/false.png" class="">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="password-confirm" class="col-sm-2 control-label font-input">邮箱</label>
+                    <div class="col-sm-10 input-group email-square">
+                        <input type="text" class="form-control" id="email-prev"
+                               placeholder="请输入邮箱">
+                        <span class="input-group-addon font-input">@</span>
+
+                        <select class="form-control" id="email-next">
+                            <option>163.com</option>
+                            <option>126.com</option>
+                            <option>gmail.com</option>
+                            <option>qq.com</option>
+                            <option>outlook.com</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label font-input">电话</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="phone"
+                               placeholder="请输入联系号码">
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary btn-lg btn-log" onclick="userRegister()" id="reg" disabled="disabled">注册</button>
+            </form>
+
+            <form class="form-horizontal form-reg" role="form" id="form-log">
+                <div class="form-group">
+                    <label for="username-log" class="col-sm-2 control-label font-input">名字</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="username-log"
+                               placeholder="请输入名字">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password-log" class="col-sm-2 control-label font-input">密码</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="password-log"
+                               placeholder="请输入密码">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-reg" onclick="userLogin()">登录</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="js/index.js"></script>
+
+
+</body>
+</html>

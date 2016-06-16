@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Trade</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <link href="style/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="style/js/jquery-1.11.1.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="style/css/style.css" rel="stylesheet" type="text/css">
+    <!-- Custom Theme files -->
+    <!-- webfonts -->
+    <link href='http://fonts.useso.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+    <!-- webfonts -->
+    <!-- dropdown -->
+    <script src="style/js/jquery.easydropdown.js"></script>
+    <link href="style/css/nav.css" rel="stylesheet" type="text/css" media="all">
+    <link href="style/css/index.css" rel="stylesheet" type="text/css">
+    <link href="style/css/marketDepthInfo.css" rel="stylesheet" type="text/css">
+    <link href="style/css/trade.css" rel="stylesheet" type="text/css">
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="style/js/move-top.js"></script>
+    <script type="text/javascript" src="style/js/easing.js"></script>
+    <script type="text/javascript" src="style/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="style/js/angular.min.js"></script>
+
+
+    <!--    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
+    <!--    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>-->
+
+    <script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script>
+    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+            });
+        });
+    </script>
+</head>
+<body ng-app="trade-App" ng-controller="trade-Ctrl">
+
+<div class="banner inner-banner">
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="style/images/logo.jpg" alt=""></a>
+            </div>
+            <div class="banner-top">
+                <ul class="nav banner-nav">
+                    <li class="dropdown1"><a class="down-scroll">Market Depth</a>
+                        <ul class="dropdown2">
+                            <li><a href="historyTrades.html">History Trades</a></li>
+                            <li><a href="marketDepth.html?pageid=1">Market</a></li>
+                        </ul>
+
+
+                    </li>
+                    <li class="dropdown1"><a href="trade.html" class="active">Buy&Sell</a></li>
+                    <li class="dropdown1"><a class="down-scroll" ng-model="username">{{username}}</a>
+                        <ul class="dropdown2">
+                            <li><a href="personalCentre.html">Personal Centre</a></li>
+                            <li><a href="businessSettings.html">Business Settings</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container container-box" >
+    <div class="col-md-4">
+        <div class="panel panel-default panel-trade">
+            <div class="panel-heading">
+                Trading Panel!
+            </div>
+            <div class="panel-body">
+                <div class="btn-group select-bos">
+                    <button type="button" class="btn btn-default active" id="btn-buy">BUY</button>
+                    <button type="button" class="btn btn-default" id="btn-sell">SELL</button>
+                </div>
+
+                <form class="form-horizontal form-reg" role="form" id="form-reg">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label font-input">名称</label>
+                        <div class="col-sm-5">
+                            <select class="form-control" id="warename" ng-model="warename">
+                                <option ng-repeat="x in wares" >{{x.name}}</option>
+                            </select>
+                        </div>
+                        <label for="itemcode" class="col-sm-2 control-label font-input">代号</label>
+                        <div class="col-sm-3">
+                            <!--<fieldset disabled>-->
+                            <input type="text" class="form-control" id="itemcode" value="1" disabled>
+                            <!--</fieldset>-->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label font-input">订单类型</label>
+                        <div class="col-sm-10 input-group email-square">
+                            <select class="form-control" id="orderType" >
+                                <option>市价订单</option>
+                                <option>限价订单</option>
+                                <option>止损订单</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label font-input">Broker</label>
+                        <div class="col-sm-8 input-group trade-ok">
+                            <input type="text" class="form-control" id="brokernames"
+                                   placeholder="请选择Broker">
+                            <input type="text" class="form-control hidden" id="brokerids"
+                                   placeholder="请选择Broker" disabled>
+
+                        </div>
+                        <button type="button" id="confirmBroker-btn" class="input-group btn btn-default btn-trade">确定
+                        </button>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label font-input"></label>
+                        <div class="col-sm-10 input-group email-square">
+                            <select class="form-control" id="brokers" multiple>
+                                <option name="brokerAll" ng-repeat="x in brokers">{{x.id + ": " + x.logname}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label font-input">Quantity</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="quantity"
+                                   placeholder="请输入交易数量">
+                        </div>
+                        <label class="col-sm-2 control-label font-input hidden" id="priceLabel">Price</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control hidden" id="price"
+                                   placeholder="请输入交易价格">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" id="confirm-btn" class="col-sm-12 btn btn-default confirm-btn" onclick="confirmOrder()">Have U Confirm it? Click Me
+                            to CONFIRM PLZ
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" id="ok" class="col-sm-6 btn btn-default ok-btn" disabled onclick="sendOrder()">OK</button>
+                        <button type="button" id="cancel" class="col-sm-6 btn btn-default cancel-btn" disabled>Cancel</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label font-input">是否启用冰山算法</label>
+                        <div class="col-sm-8 input-group">
+                            <button class="btn btn-success" id="inuse">已启用</button>
+                            <button class="btn btn-danger hidden" id="nouse">已停用</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-4 marketDepth-table-trade">
+        <table class="table table-bordered table-connect-trade">
+            <thead>
+            <tr>
+                <th class="caption-font">{{warename}}</th>
+            </tr>
+            </thead>
+        </table>
+
+        <table class="table table-bordered" >
+
+            <thead>
+            <tr>
+                <th>Level</th>
+                <th>Buy Vol</th>
+                <th>Price</th>
+                <th>Sell Vol</th>
+                <th>Level</th>
+            </tr>
+            </thead>
+            <tbody id="mdtable">
+
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4 marketDepth-table-trade">
+        <div id="con"></div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="js/trade.js"></script>
+
+</body>
+</html>

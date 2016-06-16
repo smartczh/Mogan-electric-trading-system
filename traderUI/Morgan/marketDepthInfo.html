@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Market Depth Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <link href="style/css/bootstrap.css" rel='stylesheet' type='text/css'/>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="style/js/jquery-1.11.1.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="style/css/style.css" rel='stylesheet' type='text/css'/>
+    <!-- Custom Theme files -->
+    <!-- webfonts -->
+    <link href='http://fonts.useso.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+    <!-- webfonts -->
+    <!-- dropdown -->
+    <script src="style/js/jquery.easydropdown.js"></script>
+    <link href="style/css/nav.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="style/css/index.css" rel="stylesheet" type="text/css">
+    <link href="style/css/marketDepthInfo.css" rel="stylesheet" type="text/css">
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="style/js/move-top.js"></script>
+    <script type="text/javascript" src="style/js/easing.js"></script>
+    <script type="text/javascript" src="style/js/angular.min.js"></script>
+
+    <script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script>
+    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+            });
+        });
+    </script>
+
+</head>
+<body ng-app="marketDepth-App" ng-controller="marketDepth-Ctrl">
+
+<div class="banner inner-banner">
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="style/images/logo.jpg" alt=""></a>
+            </div>
+
+            <div class="banner-top">
+                <ul class="nav banner-nav">
+                    <li class="dropdown1"><a class="down-scroll active">Market Depth</a>
+                        <ul class="dropdown2">
+                            <li><a href="historyTrades.html">History Trades</a></li>
+                            <li><a href="marketDepth.html?pageid=1">Market</a></li>
+                        </ul>
+
+
+                    </li>
+                    <li class="dropdown1"><a href="trade.html">Buy&Sell</a></li>
+                    <li class="dropdown1"><a class="down-scroll" ng-model="username">{{username}}</a>
+                        <ul class="dropdown2">
+                            <li><a href="personalCentre.html">Personal Centre</a></li>
+                            <li><a href="businessSettings.html">Business Settings</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container human-info-container">
+    <div class="col-md-4 blog-top human-info-box">
+        <div class="blog-in" >
+            <img src="./style/images/head.png" alt=" ">
+            <div class="blog-grid" ng-model="broker">
+                <h3><a>{{broker.name}}</a></h3>
+                <p>{{broker.logname}}</p>
+                <div class="date">
+                    <span class="date-in"><i> </i>{{broker.email}}</span>
+                    <a href="single.html" class="comments"><i></i>24</a>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <i class="black"> </i>
+    </div>
+
+    <div class="container container-main">
+        <div class="col-md-4 marketDepth-table">
+            <table class="table table-bordered table-connect">
+                <thead>
+                <tr>
+                    <th class="caption-font">Gold</th>
+                </tr>
+                </thead>
+            </table>
+
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>Buy Vol</th>
+                    <th>Price</th>
+                    <th>Sell Vol</th>
+                    <th>Level</th>
+                </tr>
+                </thead>
+                <tbody id="table-gold">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8">
+            <div id="con-gold" ></div>
+        </div>
+
+    </div>
+
+    <div class="container container-main">
+        <div class="col-md-4 marketDepth-table">
+            <table class="table table-bordered table-connect">
+                <thead>
+                <tr>
+                    <th class="caption-font">Gold</th>
+                </tr>
+                </thead>
+            </table>
+
+            <table class="table table-bordered">
+
+                <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>Buy Vol</th>
+                    <th>Price</th>
+                    <th>Sell Vol</th>
+                    <th>Level</th>
+                </tr>
+                </thead>
+                <tbody id="table-silver">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8">
+            <div id="con-silver" ></div>
+        </div>
+
+    </div>
+
+    <div class="container container-main">
+        <div class="col-md-4 marketDepth-table">
+            <table class="table table-bordered table-connect">
+                <thead>
+                <tr>
+                    <th class="caption-font">Gold</th>
+                </tr>
+                </thead>
+            </table>
+
+            <table class="table table-bordered">
+
+                <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>Buy Vol</th>
+                    <th>Price</th>
+                    <th>Sell Vol</th>
+                    <th>Level</th>
+                </tr>
+                </thead>
+                <tbody id="table-copper">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8" >
+            <div id="con-copper" ></div>
+        </div>
+
+    </div>
+    <div class="container container-main">
+        <div class="col-md-4 marketDepth-table">
+            <table class="table table-bordered table-connect">
+                <thead>
+                <tr>
+                    <th class="caption-font">Gold</th>
+                </tr>
+                </thead>
+            </table>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>Buy Vol</th>
+                    <th>Price</th>
+                    <th>Sell Vol</th>
+                    <th>Level</th>
+                </tr>
+                </thead>
+                <tbody id="table-jewel">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8" >
+            <div id="con-jewel" ></div>
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
+
+
+
+<div class="bolg-posts">
+    <div class="container">
+        <div class="blog">
+            <ul class="start">
+                <li><span class="prev">Prev</span></li>
+                <li><span>1</span></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">6</a></li>
+                <li><a href="#">7</a></li>
+                <li><a href="#">8</a></li>
+                <li><span>.....</span></li>
+                <li><a href="#">12</a></li>
+                <li><a href="#" class="next">Next</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+
+        $('#con').highcharts({
+
+            chart: {
+                type: 'columnrange',
+                inverted: true
+            },
+
+            title: {
+                text: 'Temperature variation by month'
+            },
+
+            subtitle: {
+                text: 'Observed in Vik i Sogn, Norway, 2009'
+            },
+
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Temperature ( ℃ )'
+                }
+            },
+
+            tooltip: {
+                valueSuffix: '°C'
+            },
+
+            plotOptions: {
+                columnrange: {
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function () {
+                            return this.y + '°C';
+                        }
+                    }
+                }
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            series: [{
+                name: 'Temperatures',
+                data: [
+                    [-9.7, 9.4],
+                    [-8.7, 6.5],
+                    [-3.5, 9.4],
+                    [-1.4, 19.9],
+                    [0.0, 22.6],
+                    [2.9, 29.5],
+                    [9.2, 30.7],
+                    [7.3, 26.5],
+                    [4.4, 18.0],
+                    [-3.1, 11.4],
+                    [-5.2, 10.4],
+                    [-13.5, 9.8]
+                ]
+            }]
+
+        });
+
+    });
+
+    $(function () {
+
+        $('#con1').highcharts({
+
+            chart: {
+                type: 'columnrange',
+                inverted: true
+            },
+
+            title: {
+                text: 'Temperature variation by month'
+            },
+
+            subtitle: {
+                text: 'Observed in Vik i Sogn, Norway, 2009'
+            },
+
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Temperature ( ℃ )'
+                }
+            },
+
+            tooltip: {
+                valueSuffix: '°C'
+            },
+
+            plotOptions: {
+                columnrange: {
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function () {
+                            return this.y + '°C';
+                        }
+                    }
+                }
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            series: [{
+                name: 'Temperatures',
+                data: [
+                    [-9.7, 9.4],
+                    [-8.7, 6.5],
+                    [-3.5, 9.4],
+                    [-1.4, 19.9],
+                    [0.0, 22.6],
+                    [2.9, 29.5],
+                    [9.2, 30.7],
+                    [7.3, 26.5],
+                    [4.4, 18.0],
+                    [-3.1, 11.4],
+                    [-5.2, 10.4],
+                    [-13.5, 9.8]
+                ]
+            }]
+
+        });
+
+    });
+
+    $(function () {
+
+        $('#con2').highcharts({
+
+            chart: {
+                type: 'columnrange',
+                inverted: true
+            },
+
+            title: {
+                text: 'Temperature variation by month'
+            },
+
+            subtitle: {
+                text: 'Observed in Vik i Sogn, Norway, 2009'
+            },
+
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Temperature ( ℃ )'
+                }
+            },
+
+            tooltip: {
+                valueSuffix: '°C'
+            },
+
+            plotOptions: {
+                columnrange: {
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function () {
+                            return this.y + '°C';
+                        }
+                    }
+                }
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            series: [{
+                name: 'Temperatures',
+                data: [
+                    [-9.7, 9.4],
+                    [-8.7, 6.5],
+                    [-3.5, 9.4],
+                    [-1.4, 19.9],
+                    [0.0, 22.6],
+                    [2.9, 29.5],
+                    [9.2, 30.7],
+                    [7.3, 26.5],
+                    [4.4, 18.0],
+                    [-3.1, 11.4],
+                    [-5.2, 10.4],
+                    [-13.5, 9.8]
+                ]
+            }]
+
+        });
+
+    });
+
+</script>
+<script type="text/javascript" src="js/marketDepthInfo.js"></script>
+
+</body>
+</html>
